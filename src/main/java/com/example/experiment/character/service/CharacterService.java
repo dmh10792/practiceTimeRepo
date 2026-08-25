@@ -40,4 +40,9 @@ public class CharacterService {
             .build()
         ).toList();
     }
+
+    public CharacterResponse createCharacter(CharacterResponse characterDTO) {
+
+        return null;
+    }
 }

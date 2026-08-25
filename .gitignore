@@ -1,3 +1,4 @@
 src/main/resources/static
 .gradle/
 .idea
+build
