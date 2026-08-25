@@ -13,10 +13,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CharacterServiceTest {
+class CharacterServiceTest {
 
     @InjectMocks
     CharacterService characterService;
@@ -24,13 +26,21 @@ public class CharacterServiceTest {
     @Mock
     CharacterJpaRepository characterJpaRepository;
 
-    CharacterEntity testCharacter1 = CharacterEntity.builder()
-            .id(1L)
+    CharacterResponse characterDTO = CharacterResponse.builder()
             .name("Testor 1")
             .age(22)
             .position(1)
             .species("Tau")
             .sex("Tau M")
+            .build();
+
+    CharacterEntity testCharacter1 = CharacterEntity.builder()
+            .id(1L)
+            .name(characterDTO.getName())
+            .age(characterDTO.getAge())
+            .position(characterDTO.getPosition())
+            .species(characterDTO.getSpecies())
+            .sex(characterDTO.getSex())
             .build();
 
     CharacterEntity testCharacter2 = CharacterEntity.builder()
@@ -51,5 +61,15 @@ public class CharacterServiceTest {
         assertThat(response.size()).isEqualTo(2);
         assertThat(response.getFirst().getName()).isEqualTo(testCharacter1.getName());
         assertThat(response.get(1).getName()).isEqualTo(testCharacter2.getName());
+    }
+
+    @Test
+    void shouldCreateCharacter() {
+        when(characterJpaRepository.save(any(CharacterEntity.class))).thenReturn(testCharacter1);
+
+        CharacterResponse response = characterService.createCharacter(characterDTO);
+
+        assertThat(response).usingRecursiveComparison().isEqualTo(testCharacter1);
+        verify(characterJpaRepository).save(any(CharacterEntity.class));
     }
 }
