@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.experiment.character.CharacterControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-25T18:33:40" hostname="RGCASWF98257" time="0.045">
+  <properties/>
+  <testcase name="shouldGetAllCharacters()" classname="com.example.experiment.character.CharacterControllerTest" time="0.045"/>
+  <system-out><![CDATA[13:33:39.713 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.experiment.character.CharacterControllerTest]: CharacterControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:33:39.759 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.experiment.ExperimentApplication for test class com.example.experiment.character.CharacterControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.2)
+
+25-Aug-26 13:33:39.892 INFO  [Test worker] c.e.e.c.CharacterControllerTest - Starting CharacterControllerTest using Java 21.0.4 with PID 95060 (started by d2415091 in /Users/d2415091/swf/practiceTime/Java Basics)
+25-Aug-26 13:33:39.896 INFO  [Test worker] c.e.e.c.CharacterControllerTest - No active profile set, falling back to 1 default profile: "default"
+25-Aug-26 13:33:40.594 INFO  [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+25-Aug-26 13:33:40.702 INFO  [Test worker] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+25-Aug-26 13:33:40.702 INFO  [Test worker] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+25-Aug-26 13:33:40.703 INFO  [Test worker] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+25-Aug-26 13:33:40.716 INFO  [Test worker] c.e.e.c.CharacterControllerTest - Started CharacterControllerTest in 0.932 seconds (process running for 1.327)
+25-Aug-26 13:33:40.743 INFO  [Test worker] c.e.e.c.c.CharacterController - In CharacterController, getting all characters
+]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/d2415091/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.11/f9cb566608fbac6bc7bf54901a7aa11543a989ee/byte-buddy-agent-1.14.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

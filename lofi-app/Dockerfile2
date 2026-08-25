@@ -1,0 +1,7 @@
+FROM bash:4.4
+
+COPY app.bash /
+
+ENV NOW_WITH_LOGS=true
+
+CMD ["bash", "/app.bash"]

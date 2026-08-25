@@ -1,0 +1,124 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.2'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'distribution'
+    id 'application'
+}
+
+distributions {
+    main {
+        distributionBaseName.set(rootProject.name)
+    }
+}
+
+apply plugin: 'application'
+apply plugin: 'distribution'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '21'
+}
+
+bootJar.enabled = true
+bootDistZip.enabled = false
+bootDistTar.enabled = false
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.projectlombok:lombok:1.18.26'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
+    // Exposes /actuator/prometheus in the Prometheus/OpenMetrics format.
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testRuntimeOnly 'com.h2database:h2:2.+'
+}
+
+application {
+    mainClass.set('com.example.experiment.ExperimentApplication')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.register('installFrontend', Exec) {
+    inputs.file("frontend/yarn.lock")
+    inputs.file("frontend/package.json")
+    outputs.dir("frontend/node_modules")
+
+    workingDir "frontend"
+    executable "yarn"
+    args "install", "--update-checksums"
+}
+
+tasks.register('buildFrontend', Exec) {
+    dependsOn installFrontend
+    inputs.files(file("frontend").listFiles((file -> file.name != "build") as FileFilter))
+    outputs.dir("frontend/build")
+
+    workingDir "frontend"
+    executable "yarn"
+    args "build"
+}
+
+tasks.register('copyFrontend', Copy) {
+    dependsOn buildFrontend
+    from buildFrontend.outputs
+    into "$buildDir/resources/main/static"
+    doLast {
+        println "copied frontend artifacts to $buildDir/resources/main/static"
+    }
+}
+
+tasks.register('cleanFrontend', Delete) {
+    delete "frontend/build", "$buildDir/resources/main/static"
+    doLast {
+        println "deleted frontend artifacts"
+    }
+}
+
+bootRun {
+    dependsOn copyFrontend
+}
+
+jar {
+    dependsOn copyFrontend
+}
+
+build {
+    dependsOn copyFrontend
+}
+
+clean {
+    dependsOn cleanFrontend
+}
+
+resolveMainClassName {
+    dependsOn copyFrontend
+}
+
+compileTestJava {
+    dependsOn copyFrontend
+}
